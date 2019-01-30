@@ -7,11 +7,29 @@ class Api::V1::PlayersController < ApplicationController
 
   def show
     @player = Player.find_by(id: params[:id])
-    render json: @player
+    if @player
+      render json: @player
+    else
+      render json: {error: "User not found"}, status: 400
+    end
   end
 
   def create
-    @player = Player.new(play)
+    @player = Player.new(player_params)
+    if @player.save
+      render json: @player
+    else
+      render json: {error: "Unable to create user"}, status: 400
+  end
+
+  def destroy
+    @player = Player.find_by(id: params[:id])
+    if @player
+      @player.destroy()
+      render json: {message: "User successfully deleted"}
+    else
+      render json: {error: "User not found"}, status: 400
+    end
   end
 
   private
