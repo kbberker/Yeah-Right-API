@@ -20,6 +20,7 @@ class Api::V1::PlayersController < ApplicationController
       render json: @player
     else
       render json: {error: "Unable to create user"}, status: 400
+    end
   end
 
   def destroy
