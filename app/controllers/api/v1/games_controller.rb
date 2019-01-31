@@ -1,7 +1,5 @@
 class Api::V1::GamesController < ApplicationController
   def create
-    # TODO: Be able to create a player at the same time a game is created.
-    
     @game = Game.new(game_params)
     if @game.save
       render json: @game
