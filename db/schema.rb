@@ -17,12 +17,12 @@ ActiveRecord::Schema.define(version: 2019_01_30_153046) do
 
   create_table "answers", force: :cascade do |t|
     t.string "text"
-    t.bigint "game_id"
+    t.bigint "round_id"
     t.bigint "player_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["game_id"], name: "index_answers_on_game_id"
     t.index ["player_id"], name: "index_answers_on_player_id"
+    t.index ["round_id"], name: "index_answers_on_round_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(version: 2019_01_30_153046) do
     t.index ["game_id"], name: "index_rounds_on_game_id"
   end
 
-  add_foreign_key "answers", "games"
   add_foreign_key "answers", "players"
+  add_foreign_key "answers", "rounds"
   add_foreign_key "players", "games"
   add_foreign_key "rounds", "games"
 end
