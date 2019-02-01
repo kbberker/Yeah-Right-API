@@ -4,6 +4,11 @@ class Api::V1::PlayersController < ApplicationController
     @players = Player.all
     render json: @players 
   end
+  
+  def games_players
+    @players = Player.where(game_id: params[:game_id])
+    render json: @players
+  end
 
   def show
     @player = Player.find_by(id: params[:id])
@@ -15,7 +20,6 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def create
-    byebug
     @player = Player.new(player_params)
     if @player.save
       render json: @player
@@ -34,10 +38,12 @@ class Api::V1::PlayersController < ApplicationController
     end
   end
 
+
+
   private
 
   def player_params
-    # Doesn't work when you .require is added
+    # Doesn't work when .require is added first
     params.permit(:name, :is_dasher, :game_name)
   end
 
