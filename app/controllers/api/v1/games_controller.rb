@@ -15,7 +15,7 @@ class Api::V1::GamesController < ApplicationController
   end
 
   def show
-    # TODO render full game object, not just the rounds
+    # TODO render full game object, not just the rounds, by adding serializer
     @game = Game.find_by(id: params[:id])
     if @game
       render json: @game.rounds
