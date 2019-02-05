@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :rounds
       resources :answers
       post '/games_players', to: 'players#games_players'
+      post '/set_dasher', to: 'players#set_dasher'
     end
   end
 end

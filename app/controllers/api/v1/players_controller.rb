@@ -28,6 +28,13 @@ class Api::V1::PlayersController < ApplicationController
     end
   end
 
+  def set_dasher
+    players = params[:players]
+    dasher = Player.find_by(id: params[:player_id])
+    # dasher.update
+
+  end
+
   def destroy
     @player = Player.find_by(id: params[:id])
     if @player
@@ -44,7 +51,7 @@ class Api::V1::PlayersController < ApplicationController
 
   def player_params
     # Doesn't work when .require is added first
-    params.permit(:name, :is_dasher, :game_name)
+    params.permit(:name, :is_dasher, :game_name, :player_id, :players => [])
   end
 
 end
