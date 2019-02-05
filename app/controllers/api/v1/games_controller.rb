@@ -16,6 +16,11 @@ class Api::V1::GamesController < ApplicationController
 
   def show
     @game = Game.find_by(id: params[:id])
+    if @game
+      render json: @game
+    else
+      render json: {error: "Unable to find game"}, status: 400
+    end
   end
 
   private

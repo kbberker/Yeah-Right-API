@@ -45,8 +45,6 @@ class Api::V1::PlayersController < ApplicationController
     end
   end
 
-
-
   private
 
   def player_params
