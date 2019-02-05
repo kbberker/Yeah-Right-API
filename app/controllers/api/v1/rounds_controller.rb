@@ -19,8 +19,16 @@ class Api::V1::RoundsController < ApplicationController
       else
         render json: {error: "Unable to create round"}, status: 400
       end
+    end    
+  end
+
+  def show
+    @round = Round.find_by(id: params[:id])
+    if @round
+      render json: @round
+    else
+      render json: {error: "Round not found"}, status: 400
     end
-    
   end
 
   private
