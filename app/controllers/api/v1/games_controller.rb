@@ -15,9 +15,10 @@ class Api::V1::GamesController < ApplicationController
   end
 
   def show
+    # TODO render full game object, not just the rounds
     @game = Game.find_by(id: params[:id])
     if @game
-      render json: @game
+      render json: @game.rounds
     else
       render json: {error: "Unable to find game"}, status: 400
     end
