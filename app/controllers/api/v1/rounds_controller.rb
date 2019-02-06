@@ -2,7 +2,6 @@ class Api::V1::RoundsController < ApplicationController
 
   def create
     game = Game.find_by(id: params[:game_id])
-    byebug
     if game.rounds.first === nil
       @round = Round.new(game_id: game.id, round_num: 1)
       if @round.save
@@ -12,7 +11,6 @@ class Api::V1::RoundsController < ApplicationController
       end
     else
       new_round_num = game.rounds.last.round_num + 1
-      byebug
       @round = Round.new(game_id: params[:game_id], round_num: new_round_num)
       if @round.save
         render json: @round
