@@ -22,6 +22,11 @@ class Api::V1::PlayersController < ApplicationController
   def create
     @player = Player.new(player_params)
     if @player.save
+      serialized_data = ActiveModelSerializers::Adapter::Json.new(
+        GameSerializer.new(@player.game)
+      ).serializable_hash
+      ActionCable.server.broadcast 'games_channel', serialized_data
+      head :ok
       render json: @player
     else
       render json: {error: "Unable to create user"}, status: 400
@@ -49,6 +54,7 @@ class Api::V1::PlayersController < ApplicationController
 
   def player_params
     # Doesn't work when .require is added first
+    # :game_name is a customer getter/setter method defined in player model
     params.permit(:name, :is_dasher, :game_name, :player_id, :players => [])
   end
 

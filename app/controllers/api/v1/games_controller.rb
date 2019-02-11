@@ -6,9 +6,14 @@ class Api::V1::GamesController < ApplicationController
   end
 
   def create
-    @game = Game.new(game_params)
-    if @game.save
-      render json: @game
+    game = Game.new(game_params)
+    if game.save
+      # render json: @game
+      serialized_data = ActiveModelSerializers::Adapter::Json.new(
+        GameSerializer.new(game)
+      ).serializable_hash
+      ActionCable.server.broadcast 'games_channel', serialized_data
+      head :ok
     else 
       render json: {error: "Unable to create game"}, status: 400
     end
