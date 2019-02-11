@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :answers
       post '/games_players', to: 'players#games_players'
       post '/set_dasher', to: 'players#set_dasher'
+      mount ActionCable.server => '/cable'
     end
   end
 end
