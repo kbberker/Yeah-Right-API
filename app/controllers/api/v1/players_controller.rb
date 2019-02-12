@@ -27,7 +27,6 @@ class Api::V1::PlayersController < ApplicationController
       ).serializable_hash
       ActionCable.server.broadcast 'games_channel', serialized_data
       head :ok
-      render json: @player
     else
       render json: {error: "Unable to create user"}, status: 400
     end

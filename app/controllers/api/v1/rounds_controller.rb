@@ -3,16 +3,20 @@ class Api::V1::RoundsController < ApplicationController
   def create
     game = Game.find_by(id: params[:game_id])
     if game.rounds.first === nil
-      @round = Round.new(game_id: game.id, round_num: 1)
-      if @round.save
-        render json: @round
+      round = Round.new(game_id: game.id, round_num: 1)
+      if round.save
+        serialized_data = ActiveModelSerializers::Adapter::Json.new(
+        RoundSerializer.new(round)
+        ).serializable_hash
+        ActionCable.server.broadcast 'rounds_channel', serialized_data
+        head :ok
       else
         render json: {error: "Unable to create round"}, status: 400
       end
     else
       new_round_num = game.rounds.last.round_num + 1
-      @round = Round.new(game_id: params[:game_id], round_num: new_round_num)
-      if @round.save
+      round = Round.new(game_id: params[:game_id], round_num: new_round_num)
+      if round.save
         render json: @round
       else
         render json: {error: "Unable to create round"}, status: 400
