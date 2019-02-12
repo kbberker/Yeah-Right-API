@@ -6,6 +6,6 @@ class RoundSerializer < ActiveModel::Serializer
     attributes :id, :player_id, :round_id, :text
   end
   class PlayerSerializer < ActiveModel::Serializer
-    attributes :id, :name, :is_dasher
+    attributes :id, :name, :is_dasher, :game_id
   end
 end
