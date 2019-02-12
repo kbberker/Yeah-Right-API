@@ -29,10 +29,16 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def set_dasher
-    players = params[:players]
-    dasher = Player.find_by(id: params[:player_id])
-    # dasher.update
-
+    players = Player.where(game_id: params[:new_dasher][:game_id])
+    new_dasher = Player.find_by(id: params[:new_dasher][:id])
+    if new_dasher
+      new_dasher.update(is_dasher: true)
+      non_dashers = players.select {|player| player.id != new_dasher.id}
+      non_dashers.each {|player| player.update(is_dasher: false)}
+      render json: {new_dasher: new_dasher, non_dashers: non_dashers}
+    else
+      render json: {error: "Unable to find player to set as dasher"}, status: 400
+    end
   end
 
   def destroy
