@@ -29,7 +29,7 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def set_dasher
-    players = Player.where(game_id: params[:new_dasher][:game_id])
+    players = Player.where(game_id: params[:new_dasher][:game][:id])
     new_dasher = Player.find_by(id: params[:new_dasher][:id])
     if new_dasher
       new_dasher.update(is_dasher: true)
