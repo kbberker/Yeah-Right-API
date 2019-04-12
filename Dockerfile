@@ -23,4 +23,8 @@ COPY . /$APP
 
 EXPOSE $PORT
 
+# Set the Entrypoint to start a shell process
+ENTRYPOINT [ "/bin/sh", "-c" ]
+
+# Command to run the ruby on rails application
 CMD ["rails", "server", "-b", "0.0.0.0"]
